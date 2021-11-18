@@ -1,9 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using Pokedex_Ultra.HttpClients;
 using Pokedex_Ultra.Models;
-using System;
-using System.Collections.Generic;
+using Pokedex_Ultra.Services;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,27 +12,36 @@ namespace Pokedex_Ultra.Controllers
     public class PokemonController : ControllerBase
     {
         private readonly IPokeApiHttpClient _pokeApiHttpClient;
-        private readonly IFuntranslationHttpClient _funtranslationHttpClient;
+        private readonly IPokemonService _translationService;
 
         public PokemonController(IPokeApiHttpClient pokeApiHttpClient,
-            IFuntranslationHttpClient funtranslationHttpClient)
+            IPokemonService translationService)
         {
             _pokeApiHttpClient = pokeApiHttpClient;
-            _funtranslationHttpClient = funtranslationHttpClient;
+            _translationService = translationService;
         }
 
         [HttpGet("{pokemonName}")]
-        public async Task<ActionResult<PokemonResponse>> Get(string pokemonName)
+        public async Task<ActionResult<PokemonInfo>> Get(string pokemonName)
         {
             var response = await _pokeApiHttpClient.GetPokemonInfo(pokemonName);
-            return Map(response.Content);
+
+            if (response.Content == null)
+                return NotFound();
+
+            return response.Content.Map();
         }
-        private PokemonResponse Map(PokeApiResponse pokeApiResponse) => new()
+
+        [HttpGet("translated/{pokemonName}")]
+        public async Task<ActionResult<PokemonInfo>> GetTranslated(string pokemonName)
         {
-            Name = pokeApiResponse.Name,
-            Habitat = pokeApiResponse.Habitat.Name,
-            IsLegendary = pokeApiResponse.Is_Legendary,
-            Description = pokeApiResponse.FlavorTextEntries.FirstOrDefault(t => t.Language.Name == "en").FlavorText
-        };
+            var pokemonInfo = await _translationService.GetTranslated(pokemonName);
+
+            if (pokemonInfo == null)
+                return NotFound();
+
+            return pokemonInfo;
+
+        }
     }
 }

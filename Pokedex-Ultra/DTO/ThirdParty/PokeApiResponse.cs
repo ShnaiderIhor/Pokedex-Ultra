@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using System.Text.Json.Serialization;
 
 namespace Pokedex_Ultra.Models
@@ -34,5 +35,13 @@ namespace Pokedex_Ultra.Models
         {
             public string Name { get; set; }
         }
+
+        public PokemonInfo Map() => new()
+        {
+            Name = pokeApiResponse.Name,
+            Habitat = pokeApiResponse.Habitat.Name,
+            IsLegendary = pokeApiResponse.Is_Legendary,
+            Description = pokeApiResponse.FlavorTextEntries.FirstOrDefault(t => t.Language.Name == "en").FlavorText
+        };
     }
 }

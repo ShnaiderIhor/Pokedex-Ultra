@@ -6,6 +6,7 @@ using Pokedex_Ultra.HttpClients;
 using Pokedex_Ultra.Models;
 using Refit;
 using System.Linq;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Pokedex_Ultra.Tests
@@ -18,16 +19,16 @@ namespace Pokedex_Ultra.Tests
             builder.ConfigureServices(services =>
             {
                 //Remove implementation
-                var clientDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IPokeApiHttpClient));
+                var clientDescriptor = services.SingleOrDefault(d => d.ServiceType == typeof(IFuntranslationHttpClient));
                 services.Remove(clientDescriptor);
 
                 //Prepare mock
-                var response = new ApiResponse<PokeApiResponse>(new System.Net.Http.HttpResponseMessage(), new PokeApiResponse()
+                var response = new ApiResponse<TranslationResponse>(new HttpResponseMessage(), new TranslationResponse()
                 {
-                    
+                    Contents = new TranslationResponse.TranslatedContent() { Translated = "Translation"}
                 }, null);
-                var client = Substitute.For<IPokeApiHttpClient>();
-                client.GetPokemonInfo(Arg.Any<string>()).Returns(Task.FromResult(response));
+                var client = Substitute.For<IFuntranslationHttpClient>();
+                client.Translate(Arg.Any<string>(), Arg.Any<TranslationRequest>()).Returns(Task.FromResult(response));
 
                 //Inject
                 services.AddTransient(s => client);

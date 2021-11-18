@@ -1,6 +1,6 @@
 namespace Pokedex_Ultra.Models
 {
-    public class PokemonResponse
+    public class PokemonInfo
     {
         public string Name { get; set; }
 
