@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using Pokedex_Ultra.HttpClients;
+using Pokedex_Ultra.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,22 +13,28 @@ namespace Pokedex_Ultra.Controllers
     [Route("[controller]")]
     public class PokemonController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
+        private readonly IPokeApiHttpClient _pokeApiHttpClient;
+        private readonly IFuntranslationHttpClient _funtranslationHttpClient;
+
+        public PokemonController(IPokeApiHttpClient pokeApiHttpClient,
+            IFuntranslationHttpClient funtranslationHttpClient)
         {
-            "ditto", "limber"
+            _pokeApiHttpClient = pokeApiHttpClient;
+            _funtranslationHttpClient = funtranslationHttpClient;
+        }
+
+        [HttpGet("{pokemonName}")]
+        public async Task<ActionResult<PokemonResponse>> Get(string pokemonName)
+        {
+            var response = await _pokeApiHttpClient.GetPokemonInfo(pokemonName);
+            return Map(response.Content);
+        }
+        private PokemonResponse Map(PokeApiResponse pokeApiResponse) => new()
+        {
+            Name = pokeApiResponse.Name,
+            Habitat = pokeApiResponse.Habitat.Name,
+            IsLegendary = pokeApiResponse.Is_Legendary,
+            Description = pokeApiResponse.FlavorTextEntries.FirstOrDefault(t => t.Language.Name == "en").FlavorText
         };
-
-        private readonly ILogger<PokemonController> _logger;
-
-        public PokemonController(ILogger<PokemonController> logger)
-        {
-            _logger = logger;
-        }
-
-        [HttpGet]
-        public IEnumerable<Pokemon> Get()
-        {
-            return Summaries.Select(p => new Pokemon() { Name = p });
-        }
     }
 }
