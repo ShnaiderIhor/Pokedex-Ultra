@@ -38,10 +38,10 @@ namespace Pokedex_Ultra.Models
 
         public PokemonInfo Map() => new()
         {
-            Name = pokeApiResponse.Name,
-            Habitat = pokeApiResponse.Habitat.Name,
-            IsLegendary = pokeApiResponse.Is_Legendary,
-            Description = pokeApiResponse.FlavorTextEntries.FirstOrDefault(t => t.Language.Name == "en").FlavorText
+            Name = Name,
+            Habitat = Habitat.Name,
+            IsLegendary = Is_Legendary,
+            Description = FlavorTextEntries.FirstOrDefault(t => t.Language.Name == "en").FlavorText
         };
     }
 }

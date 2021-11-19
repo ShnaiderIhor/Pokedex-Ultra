@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -16,20 +17,33 @@ namespace Pokedex_Ultra.Tests
         }
 
         [Theory]
-        [InlineData("/pokemon/mewtwo")]
-        public async Task Get_EndpointsReturnSuccessAndCorrectContentType(string url)
+        [InlineData("/pokemon/mewtwo", HttpStatusCode.OK)]
+        [InlineData("/pokemon/notexist", HttpStatusCode.NotFound)]
+        public async Task GetEndpointsReturnCorrectStatusCode(string url, HttpStatusCode httpStatusCode)
         {
             // Arrange
             var client = _factory.CreateClient();
 
             // Act
             var response = await client.GetAsync(url);
-            var data = await response.Content.ReadAsStringAsync();
 
             // Assert
-            response.EnsureSuccessStatusCode(); // Status Code 200-299
-            Assert.Equal("text/html; charset=utf-8",
-                response.Content.Headers.ContentType.ToString());
+            Assert.Equal(httpStatusCode, response.StatusCode);
+        }
+
+        [Theory]
+        [InlineData("/pokemon/translated/mewtwo", HttpStatusCode.OK)]
+        [InlineData("/pokemon/translated/notexist", HttpStatusCode.NotFound)]
+        public async Task GetTranslatedEndpointsReturnCorrectStatusCode(string url, HttpStatusCode httpStatusCode)
+        {
+            // Arrange
+            var client = _factory.CreateClient();
+
+            // Act
+            var response = await client.GetAsync(url);
+
+            // Assert
+            Assert.Equal(httpStatusCode, response.StatusCode);
         }
     }
 }

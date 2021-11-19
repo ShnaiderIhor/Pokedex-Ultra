@@ -22,7 +22,7 @@ namespace Pokedex_Ultra.Services
             return "shakespeare";
         }
 
-        public async Task< PokemonInfo> GetTranslated(string name)
+        public async Task<PokemonInfo> GetTranslated(string name)
         {
             var pokemonResponse = await _pokeApiHttpClient.GetPokemonInfo(name);
 
