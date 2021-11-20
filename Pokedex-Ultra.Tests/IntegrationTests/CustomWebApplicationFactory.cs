@@ -23,12 +23,11 @@ namespace Pokedex_Ultra.Tests
                 services.Remove(clientDescriptor);
 
                 //Prepare mock
-                var response = new ApiResponse<TranslationResponse>(new HttpResponseMessage(), new TranslationResponse()
-                {
-                    Contents = new TranslationResponse.TranslatedContent() { Translated = "Translation"}
-                }, null);
                 var client = Substitute.For<IFuntranslationHttpClient>();
-                client.Translate(Arg.Any<string>(), Arg.Any<TranslationRequest>()).Returns(Task.FromResult(response));
+                client.TranslateAsync(Arg.Any<string>(), Arg.Any<TranslationRequest>()).Returns(Task.FromResult(new TranslationResponse()
+                {
+                    Contents = new TranslationResponse.TranslatedContent() { Translated = "Translated" }
+                }));
 
                 //Inject
                 services.AddTransient(s => client);

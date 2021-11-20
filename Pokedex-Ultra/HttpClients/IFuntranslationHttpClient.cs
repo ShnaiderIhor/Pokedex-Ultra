@@ -7,6 +7,6 @@ namespace Pokedex_Ultra.HttpClients
     public interface IFuntranslationHttpClient
     {
         [Post("/{type}")]
-        public Task<ApiResponse<TranslationResponse>> Translate(string type, TranslationRequest text);
+        public Task<TranslationResponse> TranslateAsync(string type, TranslationRequest text);
     }
 }

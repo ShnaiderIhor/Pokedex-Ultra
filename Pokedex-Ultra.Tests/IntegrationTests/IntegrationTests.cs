@@ -1,5 +1,3 @@
-using Microsoft.AspNetCore.Mvc.Testing;
-using System;
 using System.Net;
 using System.Threading.Tasks;
 using Xunit;

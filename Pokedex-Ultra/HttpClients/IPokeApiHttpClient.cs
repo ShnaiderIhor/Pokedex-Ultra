@@ -7,6 +7,6 @@ namespace Pokedex_Ultra.HttpClients
     public interface IPokeApiHttpClient
     {
         [Get("/pokemon-species/{name}")]
-        public Task<ApiResponse<PokeApiResponse>> GetPokemonInfo(string name);
+        public Task<PokeApiResponse> GetPokemonInfoAsync(string name);
     }
 }

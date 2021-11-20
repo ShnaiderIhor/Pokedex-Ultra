@@ -5,7 +5,7 @@ namespace Pokedex_Ultra.Services
 {
     public interface IPokemonService
     {
-        string GetTranslationType(bool isLegendary, string habitat);
-        Task<PokemonInfo> GetTranslated(string name);
+        Task<PokemonInfo> GetInfoAsync(string pokemonName);
+        Task<PokemonInfo> GetTranslatedAsync(string pokemonName);
     }
 }

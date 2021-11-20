@@ -2,7 +2,6 @@
 using Pokedex_Ultra.HttpClients;
 using Pokedex_Ultra.Models;
 using Pokedex_Ultra.Services;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Pokedex_Ultra.Controllers
@@ -24,18 +23,18 @@ namespace Pokedex_Ultra.Controllers
         [HttpGet("{pokemonName}")]
         public async Task<ActionResult<PokemonInfo>> Get(string pokemonName)
         {
-            var response = await _pokeApiHttpClient.GetPokemonInfo(pokemonName);
+            var response = await _pokeApiHttpClient.GetPokemonInfoAsync(pokemonName);
 
-            if (response.Content == null)
+            if (response == null)
                 return NotFound();
 
-            return response.Content.Map();
+            return response.Map();
         }
 
         [HttpGet("translated/{pokemonName}")]
         public async Task<ActionResult<PokemonInfo>> GetTranslated(string pokemonName)
         {
-            var pokemonInfo = await _translationService.GetTranslated(pokemonName);
+            var pokemonInfo = await _translationService.GetTranslatedAsync(pokemonName);
 
             if (pokemonInfo == null)
                 return NotFound();
