@@ -22,7 +22,8 @@ namespace Pokedex_Ultra.Services
         {
             try
             {
-                return (await _pokeApiHttpClient.GetPokemonInfoAsync(pokemonName)).Map();
+                var response = await _pokeApiHttpClient.GetPokemonInfoAsync(pokemonName);
+                return response.Map();
             }
             catch (Exception ex)
             {
@@ -32,7 +33,7 @@ namespace Pokedex_Ultra.Services
         }
         public async Task<PokemonInfo> GetTranslatedAsync(string pokemonName)
         {
-            PokemonInfo pokemon = await GetInfoAsync(pokemonName);
+            var pokemon = await GetInfoAsync(pokemonName);
 
             try
             {
