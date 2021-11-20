@@ -8,7 +8,7 @@ You need to have either [Docker](https://www.docker.com/) or [.NET 5 SDK](https:
 
  docker run -it -p 8080:80 pokedex-ultra
 ```
-### .NET CLI
+### .NET CLI:
 ```cmd
 dotnet run --project  Pokedex-Ultra/Pokedex-Ultra.csproj
 ```
