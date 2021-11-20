@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Pokedex_Ultra.HttpClients;
 using Pokedex_Ultra.Models;
 using Pokedex_Ultra.Services;
 using System.Threading.Tasks;
@@ -10,31 +9,28 @@ namespace Pokedex_Ultra.Controllers
     [Route("[controller]")]
     public class PokemonController : ControllerBase
     {
-        private readonly IPokeApiHttpClient _pokeApiHttpClient;
-        private readonly IPokemonService _translationService;
+        private readonly IPokemonService _pokemonService;
 
-        public PokemonController(IPokeApiHttpClient pokeApiHttpClient,
-            IPokemonService translationService)
+        public PokemonController(IPokemonService pokemonService)
         {
-            _pokeApiHttpClient = pokeApiHttpClient;
-            _translationService = translationService;
+            _pokemonService = pokemonService;
         }
 
         [HttpGet("{pokemonName}")]
         public async Task<ActionResult<PokemonInfo>> Get(string pokemonName)
         {
-            var response = await _pokeApiHttpClient.GetPokemonInfoAsync(pokemonName);
+            var response = await _pokemonService.GetInfoAsync(pokemonName);
 
             if (response == null)
                 return NotFound();
 
-            return response.Map();
+            return response;
         }
 
         [HttpGet("translated/{pokemonName}")]
         public async Task<ActionResult<PokemonInfo>> GetTranslated(string pokemonName)
         {
-            var pokemonInfo = await _translationService.GetTranslatedAsync(pokemonName);
+            var pokemonInfo = await _pokemonService.GetTranslatedAsync(pokemonName);
 
             if (pokemonInfo == null)
                 return NotFound();

@@ -47,7 +47,7 @@ namespace Pokedex_Ultra.Services
             }
             catch (Exception ex)
             {
-                _logger.LogError($"Translation couldn't be done", ex);
+                _logger.LogError($"Translation couldn't be done for pokemon {pokemonName}", ex);
             }
 
             return pokemon;

@@ -4,12 +4,12 @@ using Xunit;
 
 namespace Pokedex_Ultra.Tests
 {
-    public class BasicTests
+    public class IntegrationTests
     : IClassFixture<CustomWebApplicationFactory<Startup>>
     {
         private readonly CustomWebApplicationFactory<Startup> _factory;
 
-        public BasicTests(CustomWebApplicationFactory<Startup> factory)
+        public IntegrationTests(CustomWebApplicationFactory<Startup> factory)
         {
             _factory = factory;
         }
