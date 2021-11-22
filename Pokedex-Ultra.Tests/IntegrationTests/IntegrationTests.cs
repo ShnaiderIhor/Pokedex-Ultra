@@ -17,7 +17,7 @@ namespace Pokedex_Ultra.Tests
         [Theory]
         [InlineData("/pokemon/mewtwo", HttpStatusCode.OK)]
         [InlineData("/pokemon/notexist", HttpStatusCode.NotFound)]
-        public async Task GetEndpointsReturnCorrectStatusCode(string url, HttpStatusCode httpStatusCode)
+        public async Task Get_Should_Return_CorrectStatusCode(string url, HttpStatusCode httpStatusCode)
         {
             // Arrange
             var client = _factory.CreateClient();
@@ -32,7 +32,7 @@ namespace Pokedex_Ultra.Tests
         [Theory]
         [InlineData("/pokemon/translated/mewtwo", HttpStatusCode.OK)]
         [InlineData("/pokemon/translated/notexist", HttpStatusCode.NotFound)]
-        public async Task GetTranslatedEndpointsReturnCorrectStatusCode(string url, HttpStatusCode httpStatusCode)
+        public async Task GetTranslated_Should_Return_CorrectStatusCode(string url, HttpStatusCode httpStatusCode)
         {
             // Arrange
             var client = _factory.CreateClient();

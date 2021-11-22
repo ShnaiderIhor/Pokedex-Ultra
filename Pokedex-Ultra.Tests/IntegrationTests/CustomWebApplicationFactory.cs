@@ -4,9 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NSubstitute;
 using Pokedex_Ultra.HttpClients;
 using Pokedex_Ultra.Models;
-using Refit;
 using System.Linq;
-using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Pokedex_Ultra.Tests
