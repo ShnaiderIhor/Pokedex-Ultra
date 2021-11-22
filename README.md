@@ -23,7 +23,5 @@ There are two avaliable endpoints:
 
 To explore avaliable endpoints you may use a Swagger page: `/swagger/index.html`
 
-
-
 ## Before going to production
 Pokedex-Ultra relies on https://api.funtranslations.com/ for getting translations but this site has a quota: 5 requests per hour. So for production usage of Pokedex-Ultra better to have this quota increased by purchasing the subscription and to change the code of Pokedex-Ultra accordingly.
